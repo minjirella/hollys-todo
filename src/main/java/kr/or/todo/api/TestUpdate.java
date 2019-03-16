@@ -5,8 +5,8 @@ import kr.or.connect.todo.dto.TodoDto;
 
 public class TestUpdate {
 	public static void main(String[] args) {
-		String type = "DOING";
-		Long id = (long) 2;
+		String type = "DONE";
+		Long id = (long) 4;
 		
 		TodoDto todo = new TodoDto(id, type);
 		TodoDao dao = new TodoDao();

@@ -1,0 +1,67 @@
+body {
+  text-align:center;
+}
+
+h1 {
+  color:cadetblue;
+}
+
+section {
+  margin: 18px 0px;
+  height:70px;
+}
+
+.label {
+  width: 100%;
+  text-align: left;
+  display: inline-block;
+  margin: 0px 0px 10px 0px;
+  font-size: 18px;
+  color: cadetblue;
+}
+
+form{
+  position:relative;
+  margin:auto;
+  width:40%;
+  text-align:left;
+}
+
+.todo_title {
+  width:100%;
+  height:30px;
+  font-size:18px;
+}
+
+.todo_name {
+  width:60%;
+  font-size:16px;
+  height:30px;
+}
+
+#btn > .btn_prev {
+  padding: 5px 0px;
+}
+
+#btn > * {
+  display: inline;
+  padding: 5px 10px;
+  position: relative;
+  width: 100px;
+  border: 1px solid grey;
+  font-size: 15px;
+}
+.btn_prev{
+  float:left;
+  color:black;
+  background-color:white;
+  text-align: center;
+}
+
+.btn_submit, .btn_del{
+  float:right;
+  color:white;
+  background-color:cadetblue;
+  margin:0px 10px;
+  cursor:pointer;
+}

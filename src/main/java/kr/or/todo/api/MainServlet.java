@@ -2,8 +2,10 @@ package kr.or.todo.api;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,31 +20,40 @@ import kr.or.connect.todo.dto.TodoDto;
 @WebServlet("/main")
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public MainServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		
 		TodoDao dao = new TodoDao();
-		
+		List<TodoDto> todo = new ArrayList<TodoDto>();
+		List<TodoDto> doing = new ArrayList<TodoDto>();
+		List<TodoDto> done = new ArrayList<TodoDto>();
 		List<TodoDto> list = dao.getTodos();
-		ObjectMapper objectMapper = new ObjectMapper();
-		String json = objectMapper.writeValueAsString(list);
 		
-		PrintWriter out = response.getWriter();
-		out.println(json);
-		out.close();
+		for(int i=0; i<list.size(); i++) {
+			switch (list.get(i).getType()) {
+			case ("TODO"):
+				todo.add(list.get(i));
+				break;
+			case ("DOING"):
+				doing.add(list.get(i));
+				break;
+			default:
+				done.add(list.get(i));
+			}
+		}
+
+		request.setAttribute("todo", todo);
+		request.setAttribute("doing", doing);
+		request.setAttribute("done", done);
+		
+        RequestDispatcher rd= request.getRequestDispatcher("/main.jsp");
+        rd.forward(request, response);
 	}
 
 }

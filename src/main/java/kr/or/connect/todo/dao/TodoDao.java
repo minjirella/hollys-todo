@@ -25,27 +25,20 @@ public class TodoDao {
 			e.printStackTrace();
 		}
 
-		String sql = "SELECT id, name, regdate, sequence, title, type FROM todo order by id desc";
+		String sql = "SELECT id, name, regdate, sequence, title, type FROM todo order by regdate desc, id desc";
 		try (Connection conn = DriverManager.getConnection(dburl, dbUser, dbpasswd);
 				PreparedStatement ps = conn.prepareStatement(sql)) {
 
 			try (ResultSet rs = ps.executeQuery()) {
-
 				while (rs.next()) {
-//					String description = rs.getString(1);
-//					int id = rs.getInt("role_id");
-//					Role role = new Role(id, description);
-//					list.add(todo); // list에 반복할때마다 Role인스턴스를 생성하여 list에 추가한다.
-					
 					Long id = rs.getLong(1);
 					String name = rs.getString(2);
-					String regdate = rs.getString(3);
+					String regdate = rs.getString(3).substring(0,10);
 					int sequence = rs.getInt(4);
 					String title = rs.getString(5);
 					String type = rs.getString(6);
 					TodoDto todo = new TodoDto(id, name, regdate, sequence, title, type);
-					list.add(todo);
-					
+					list.add(todo);					
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -56,13 +49,12 @@ public class TodoDao {
 		return list;
 	}
 	
+	
 	public int insertTodo(TodoDto todo) {
 		int insertCnt = 0;
-		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -70,19 +62,17 @@ public class TodoDao {
 		
 		try (Connection conn = DriverManager.getConnection(dburl, dbUser, dbpasswd);
 				PreparedStatement ps = conn.prepareStatement(sql)) {
-//			ps.setString(1,role.getRoleId());
 			ps.setString(1, todo.getTitle());
 			ps.setString(2, todo.getName());
-			ps.setInt(3, todo.getSequence());
-			
-			insertCnt = ps.executeUpdate();
-			
+			ps.setInt(3, todo.getSequence());			
+			insertCnt = ps.executeUpdate();			
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}
 		return insertCnt;
 	}
+	
 	
 	public int updateTodo(TodoDto todo) {
 		int updateCnt = 0;
